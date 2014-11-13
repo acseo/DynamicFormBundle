@@ -1,0 +1,48 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="acseo_dynamic_form.form.form_manager.class">ACSEO\Bundle\DynamicFormBundle\Form\FormManager</parameter>
+        <parameter key="acseo_dynamic_form.form.dynamic_form.class">ACSEO\Bundle\DynamicFormBundle\Form\Type\DynamicFormType</parameter>
+        <parameter key="acseo_dynamic_form.form.extension.help.class">ACSEO\Bundle\DynamicFormBundle\Form\Extension\FieldTypeHelpExtension</parameter>
+        <parameter key="acseo_dynamic_form.form.extension.picto.class">ACSEO\Bundle\DynamicFormBundle\Form\Extension\FieldTypePictoExtension</parameter>
+        <parameter key="acseo_dynamic_form.form.extension.popin.class">ACSEO\Bundle\DynamicFormBundle\Form\Extension\FieldTypePopinExtension</parameter>
+        <parameter key="acseo_dynamic_form.form.validator_builder.class">ACSEO\Bundle\DynamicFormBundle\Form\Validator\ValidatorBuilder</parameter>
+        <parameter key="acseo_dynamic_form.form.field_builder.class">ACSEO\Bundle\DynamicFormBundle\Form\Field\FieldBuilder</parameter>
+        <parameter key="acseo_dynamic_form.array_form_provider.class">ACSEO\Bundle\DynamicFormBundle\Form\Provider\ArrayFormProvider</parameter>
+    </parameters>
+
+    <services>
+        <service id="acseo.form.manager" class="%acseo_dynamic_form.form.form_manager.class%">
+            <argument type="service" id="event_dispatcher"/>
+            <argument type="service" id="form.factory"/>
+            <argument type="service" id="acseo.form.dynamic_form"/>
+        </service>
+
+        <service id="acseo.form.validator_builder" class="%acseo_dynamic_form.form.validator_builder.class%"/>
+        <service id="acseo.form.field_builder" class="%acseo_dynamic_form.form.field_builder.class%"/>
+
+        <service id="acseo.form.dynamic_form" class="%acseo_dynamic_form.form.dynamic_form.class%">
+            <tag name="form.type" alias="acseo_form_dynamic_form" />
+            <argument type="service" id="acseo.form.validator_builder"/>
+            <argument type="service" id="acseo.form.field_builder"/>
+        </service>
+
+        <service id="acseo.form.extension.help" class="%acseo_dynamic_form.form.extension.help.class%">
+            <tag name="form.type_extension" alias="form"/>
+        </service>
+        <service id="acseo.form.extension.picto" class="%acseo_dynamic_form.form.extension.picto.class%">
+            <tag name="form.type_extension" alias="form"/>
+        </service>
+        <service id="acseo.form.extension.popin" class="%acseo_dynamic_form.form.extension.popin.class%">
+            <tag name="form.type_extension" alias="form"/>
+        </service>
+
+        <service id="acseo.form.array.provider" class="%acseo_dynamic_form.array_form_provider.class%">
+        </service>
+    </services>
+
+</container>

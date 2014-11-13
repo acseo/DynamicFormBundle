@@ -1,0 +1,53 @@
+{% extends 'form_div_layout.html.twig' %}
+
+
+{% block form_row %}
+    {% spaceless %}
+        <div class="fieldwrap">
+            {{ form_label(form) }}
+            {{ form_widget(form) }}
+            {{ form_errors(form) }}
+        </div>
+    {% endspaceless %}
+{% endblock form_row %}
+
+
+{% block form_widget_simple %}
+    {% spaceless %}
+        {% set type = type|default('text') %}
+        <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+
+        {% if picto is defined and picto is not null %}
+            <span class="picto picto-{{ picto }}">&nbsp;</span>
+        {% endif %}
+
+        {% if help is defined and help is not null %}
+            <a href="#" class="tipped" data-title="{{ help }}" data-tipper-options='{"direction":"top"}'>
+                <img src="{{ asset('bundles/acseodynamicform/images/help.png') }}"/>
+            </a>
+        {% endif %}
+
+    {% endspaceless %}
+{% endblock form_widget_simple %}
+
+{% block collection_widget %}
+    {% spaceless %}
+        {% if prototype is defined %}
+            {% set attr = attr|merge({'data-prototype': form_row(prototype) }) %}
+        {% endif %}
+        {{ block('form_widget') }}
+    {% endspaceless %}
+{% endblock collection_widget %}
+
+
+{% block form_widget_compound %}
+    {% spaceless %}
+        <div {{ block('widget_container_attributes') }}>
+            {% if form.parent is empty %}
+                {{ form_errors(form) }}
+            {% endif %}
+            {{ block('form_rows') }}
+            {{ form_rest(form) }}
+        </div>
+    {% endspaceless %}
+{% endblock form_widget_compound %}
