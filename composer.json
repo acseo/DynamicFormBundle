@@ -1,5 +1,5 @@
 {
-    "name": "acseo/sql-server-bundle",
+    "name": "acseo/dynamic-form-bundle",
     "type": "symfony-bundle",
     "description": "Symfony2 From generator from array description",
     "keywords": ["Symfony", "form", "generator"],
