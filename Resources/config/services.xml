@@ -13,6 +13,7 @@
         <parameter key="acseo_dynamic_form.form.validator_builder.class">ACSEO\Bundle\DynamicFormBundle\Form\Validator\ValidatorBuilder</parameter>
         <parameter key="acseo_dynamic_form.form.field_builder.class">ACSEO\Bundle\DynamicFormBundle\Form\Field\FieldBuilder</parameter>
         <parameter key="acseo_dynamic_form.array_form_provider.class">ACSEO\Bundle\DynamicFormBundle\Form\Provider\ArrayFormProvider</parameter>
+        <parameter key="acseo_dynamic_form.form.type.fieldset.class">ACSEO\Bundle\DynamicFormBundle\Form\Type\FieldsetType</parameter>
     </parameters>
 
     <services>
@@ -42,6 +43,10 @@
         </service>
 
         <service id="acseo.form.array.provider" class="%acseo_dynamic_form.array_form_provider.class%">
+        </service>
+
+        <service id="acseo.form.type.fieldset" class="%acseo_dynamic_form.form.type.fieldset.class%">
+            <tag name="form.type" alias="fieldset" />
         </service>
     </services>
 

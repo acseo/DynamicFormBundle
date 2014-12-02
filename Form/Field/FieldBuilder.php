@@ -22,19 +22,17 @@ use Symfony\Component\Form\FormError;
 class FieldBuilder implements FieldBuilderInterface
 {
     public function addField($name, $field, $options, FormBuilderInterface $builder)
-    {          
-       if(array_key_exists('data', $options) && $field->type == 'genemu_jquerydate') {
+    {
+        if (array_key_exists('data', $options) && $field->type == 'genemu_jquerydate') {
             $value = $options['data'];
-            if(trim($value) != '')
-            {
+            if (trim($value) != '') {
                 $dateTimeValue = \DateTime::createFromFormat('d/m/Y', $value);
-                if($dateTimeValue != false) {
+                if ($dateTimeValue != false) {
                     $options['data'] = $dateTimeValue;
-                }            
+                }
+            } else {
+                unset($options['data']);
             }
-            else {
-                unset($options['data']);    
-            }        
         }
         
         if (isset($field->multiple) && $field->multiple) {
@@ -50,7 +48,7 @@ class FieldBuilder implements FieldBuilderInterface
     }
 
     private function addMultipleField($name, $field, $options, $builder)
-    {        
+    {
         $builder->add($name, 'collection', array(
             'label' => $options['label'],
             'error_bubbling' => false,
@@ -76,31 +74,26 @@ class FieldBuilder implements FieldBuilderInterface
             $form = $event->getForm();
         
             foreach ($formFields as $name => $field) {
-                if($field->multiple && (property_exists($field, 'constraints') && property_exists($field->constraints, 'Length') 
-                        && property_exists($field->constraints->Length, 'max')))
-                {
+                if (property_exists($field, 'multiple') && $field->multiple && (property_exists($field, 'constraints') && property_exists($field->constraints, 'Length')
+                        && property_exists($field->constraints->Length, 'max'))) {
                     $fieldData = $form->get($name)->getData();
         
-                    if(null != $fieldData && is_array($fieldData) && sizeof($fieldData) > 0)
-                    {
+                    if (null != $fieldData && is_array($fieldData) && sizeof($fieldData) > 0) {
                         $maxLength = $field->constraints->Length->max;
         
                         $concat = "";
         
-                        foreach($fieldData as $data) {
-                            if(is_array($data))
-                            {
+                        foreach ($fieldData as $data) {
+                            if (is_array($data)) {
                                 $concat .= $data['value'].";";
                             }
                         }
                         
-                        if(strlen($concat) > 0)
-                        {
+                        if (strlen($concat) > 0) {
                             $concat = substr($concat, 0, -1);
                         }
                         
-                        if(strlen($concat) > $maxLength)
-                        {
+                        if (strlen($concat) > $maxLength) {
                             $form->get($name)->addError(new FormError("Le champ ne doit pas dépasser ".$maxLength." caractère".(($maxLength > 1) ? "s" : "")));
                         }
                     }
@@ -124,35 +117,29 @@ class FieldBuilder implements FieldBuilderInterface
             $fieldRelatedList = array();
             
             foreach ($formFields as $name => $field) {
-                if(property_exists($field, 'options') && property_exists($field->options, 'attr') && property_exists($field->options->attr, 'data-related'))
-                {    
+                if (property_exists($field, 'options') && property_exists($field->options, 'attr') && property_exists($field->options->attr, 'data-related')) {
                     $fieldRelated = $field->options->attr->{'data-related'};
                     $fieldSource = $field->options->attr->{'data-source'};
-                    if(!in_array($fieldSource, $fieldRelatedList))
-                    {
+
+                    if (!in_array($fieldSource, $fieldRelatedList)) {
                         $nbElementsSource = sizeof($form->get($name)->getData());
                         
                         //Searching related data field
-                        foreach ($formFields as $nameRelatedItem => $fieldRelatedItem)
-                        {
-                            if(property_exists($fieldRelatedItem, 'options') && property_exists($fieldRelatedItem->options, 'attr') 
-                                && property_exists($fieldRelatedItem->options->attr, 'data-source'))
-                            {
-                                if($fieldRelatedItem->options->attr->{'data-source'} == $fieldRelated)
-                                {
+                        foreach ($formFields as $nameRelatedItem => $fieldRelatedItem) {
+                            if (property_exists($fieldRelatedItem, 'options') && property_exists($fieldRelatedItem->options, 'attr')
+                                && property_exists($fieldRelatedItem->options->attr, 'data-source')) {
+                                if ($fieldRelatedItem->options->attr->{'data-source'} == $fieldRelated) {
                                     $nbElementsRelated = sizeof($form->get($nameRelatedItem)->getData());
                                     
-                                    if($nbElementsRelated != $nbElementsSource)
-                                    {
+                                    if ($nbElementsRelated != $nbElementsSource) {
                                         $form->get($name)->addError(new FormError('Veuillez saisir autant de champ que pour '.$fieldRelatedItem->options->label));
                                     }
                                 }
                             }
                         }
-                    }                                                                        
+                    }
                 }
             }
-        
         });
     }
 }
