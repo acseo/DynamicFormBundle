@@ -39,7 +39,6 @@
     {% endspaceless %}
 {% endblock collection_widget %}
 
-
 {% block form_widget_compound %}
     {% spaceless %}
         <div {{ block('widget_container_attributes') }}>
@@ -51,3 +50,12 @@
         </div>
     {% endspaceless %}
 {% endblock form_widget_compound %}
+
+{% block fieldset_widget %}
+    {% spaceless %}
+        <fieldset {{ block('widget_container_attributes') }}>
+            {% if title is defined %}<legend>{{ title }}</legend>{% endif %}
+            {{ form_widget(form) }}
+        </fieldset>
+    {% endspaceless %}
+{% endblock %}
