@@ -44,8 +44,7 @@ class DynamicFormType extends DynamicFormAbstractType
             throw new Exception('FormStruc is empty');
         }
 
-        foreach ($formFields as $name => $field) {                        
-
+        foreach ($formFields as $name => $field) {
             $options = json_decode(json_encode($field->options), true);
 
             $constraints = $this->validatorBuilder->buildConstraints($field);
@@ -61,7 +60,9 @@ class DynamicFormType extends DynamicFormAbstractType
         
         $this->fieldBuilder->addMultipleFieldPostBindEvent($formFields, $builder);
         
-        $this->fieldBuilder->addAssociatedFielPostBindEvent($formFields, $builder);                
+        $this->fieldBuilder->alterDataPreSetDataEvent($formFields, $builder);
+        
+        $this->fieldBuilder->addAssociatedFielPostBindEvent($formFields, $builder);
     }
 
     public function getName()

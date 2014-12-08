@@ -102,6 +102,44 @@ class FieldBuilder implements FieldBuilderInterface
         
         });
     }
+
+    /**
+     * Modifies data before they are bound to the form
+     * @param unknown $formFields
+     * @param unknown $builder
+     */
+    public function alterDataPreSetDataEvent($formFields, $builder)
+    {
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($builder, $formFields) {
+
+            $formData = $event->getData();
+
+            if (null != $formData) {
+                foreach ($formFields as $name => $field) {
+                    //Altering date array to a \DateTime object if date type in fieldset or if date type
+                    if ("fieldset" == $field->type) {
+                        foreach ($field->options->subforms as $subFieldName => $subField) {
+                            if ("date" == $subField->type) {
+                                $dateTimeValue = \DateTime::createFromFormat('Y-m-d H:i:s.u', $formData[$name][$subFieldName]['date']);
+
+                                if ($dateTimeValue != false) {
+                                    $formData[$name][$subFieldName] = $dateTimeValue;
+                                }
+                            }
+                        }
+                    } else if ("date" == $field->type) {
+                        $dateTimeValue = \DateTime::createFromFormat('Y-m-d H:i:s.u', $formData[$name]['date']);
+
+                        if ($dateTimeValue != false) {
+                            $formData[$name] = $dateTimeValue;
+                        }
+                    }
+                }
+            }
+
+            $event->setData($formData);
+        });
+    }
     
     /**
      * Number of elements constraint on associated fields
