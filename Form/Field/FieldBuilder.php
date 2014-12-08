@@ -125,6 +125,17 @@ class FieldBuilder implements FieldBuilderInterface
                                 if ($dateTimeValue != false) {
                                     $formData[$name][$subFieldName] = $dateTimeValue;
                                 }
+                            } else if ("fieldset" == $subField->type) {
+                                //In case a fieldset contains another fieldset with date - better rewrite with recursive walker
+                                foreach ($subField->attr->subforms as $subSubFieldName => $subSubField) {
+                                    if ("date" == $subSubField->type) {
+                                        $dateTimeValue = \DateTime::createFromFormat('Y-m-d H:i:s.u', $formData[$name][$subFieldName][$subSubFieldName]['date']);
+
+                                        if ($dateTimeValue != false) {
+                                            $formData[$name][$subFieldName][$subSubFieldName] = $dateTimeValue;
+                                        }
+                                    }
+                                }
                             }
                         }
                     } else if ("date" == $field->type) {
