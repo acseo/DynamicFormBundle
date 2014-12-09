@@ -119,7 +119,7 @@ class FieldBuilder implements FieldBuilderInterface
                     //Altering date array to a \DateTime object if date type in fieldset or if date type
                     if ("fieldset" == $field->type) {
                         foreach ($field->options->subforms as $subFieldName => $subField) {
-                            if ("date" == $subField->type) {
+                            if ("date" == $subField->type && array_key_exists($name, $formData) && array_key_exists($subFieldName, $formData[$name])) {
                                 $dateTimeValue = \DateTime::createFromFormat('Y-m-d H:i:s.u', $formData[$name][$subFieldName]['date']);
 
                                 if ($dateTimeValue != false) {
@@ -128,7 +128,7 @@ class FieldBuilder implements FieldBuilderInterface
                             } else if ("fieldset" == $subField->type) {
                                 //In case a fieldset contains another fieldset with date - better rewrite with recursive walker
                                 foreach ($subField->attr->subforms as $subSubFieldName => $subSubField) {
-                                    if ("date" == $subSubField->type) {
+                                    if ("date" == $subSubField->type && array_key_exists($name, $formData) && array_key_exists($subFieldName, $formData[$name]) && array_key_exists($subSubFieldName, $formData[$name][$subFieldName])) {
                                         $dateTimeValue = \DateTime::createFromFormat('Y-m-d H:i:s.u', $formData[$name][$subFieldName][$subSubFieldName]['date']);
 
                                         if ($dateTimeValue != false) {
