@@ -34,7 +34,7 @@ class FieldBuilder implements FieldBuilderInterface
                 unset($options['data']);
             }
         }
-        
+
         if (isset($field->multiple) && $field->multiple) {
             $this->addMultipleField($name, $field, $options, $builder);
         } else {
@@ -61,7 +61,7 @@ class FieldBuilder implements FieldBuilderInterface
             'data' =>(array_key_exists('data', $options) && is_array($options['data'])) ? $options['data'] : null
         ));
     }
-    
+
     /**
      * Length constraint on multiple field
      * @param unknown $formFields
@@ -70,36 +70,36 @@ class FieldBuilder implements FieldBuilderInterface
     public function addMultipleFieldPostBindEvent($formFields, $builder)
     {
         $builder->addEventListener(FormEvents::POST_BIND, function (FormEvent $event) use ($builder, $formFields) {
-        
+
             $form = $event->getForm();
-        
+
             foreach ($formFields as $name => $field) {
                 if (property_exists($field, 'multiple') && $field->multiple && (property_exists($field, 'constraints') && property_exists($field->constraints, 'Length')
                         && property_exists($field->constraints->Length, 'max'))) {
                     $fieldData = $form->get($name)->getData();
-        
+
                     if (null != $fieldData && is_array($fieldData) && sizeof($fieldData) > 0) {
                         $maxLength = $field->constraints->Length->max;
-        
+
                         $concat = "";
-        
+
                         foreach ($fieldData as $data) {
                             if (is_array($data)) {
                                 $concat .= $data['value'].";";
                             }
                         }
-                        
+
                         if (strlen($concat) > 0) {
                             $concat = substr($concat, 0, -1);
                         }
-                        
+
                         if (strlen($concat) > $maxLength) {
                             $form->get($name)->addError(new FormError("Le champ ne doit pas dépasser ".$maxLength." caractère".(($maxLength > 1) ? "s" : "")));
                         }
                     }
                 }
             }
-        
+
         });
     }
 
@@ -121,6 +121,10 @@ class FieldBuilder implements FieldBuilderInterface
                         foreach ($field->options->subforms as $subFieldName => $subField) {
                             if ("date" == $subField->type && array_key_exists($name, $formData) && array_key_exists($subFieldName, $formData[$name])) {
                                 $dateTimeValue = \DateTime::createFromFormat('Y-m-d H:i:s.u', $formData[$name][$subFieldName]['date']);
+                                // try to get the date without milliseconds
+                                if (!$dateTimeValue) {
+                                    $dateTimeValue = \DateTime::createFromFormat('Y-m-d H:i:s', $formData[$name][$subFieldName]['date']);
+                                }
 
                                 if ($dateTimeValue != false) {
                                     $formData[$name][$subFieldName] = $dateTimeValue;
@@ -130,6 +134,10 @@ class FieldBuilder implements FieldBuilderInterface
                                 foreach ($subField->attr->subforms as $subSubFieldName => $subSubField) {
                                     if ("date" == $subSubField->type && array_key_exists($name, $formData) && array_key_exists($subFieldName, $formData[$name]) && array_key_exists($subSubFieldName, $formData[$name][$subFieldName])) {
                                         $dateTimeValue = \DateTime::createFromFormat('Y-m-d H:i:s.u', $formData[$name][$subFieldName][$subSubFieldName]['date']);
+                                        // try to get the date without milliseconds
+                                        if (!$dateTimeValue) {
+                                            $dateTimeValue = \DateTime::createFromFormat('Y-m-d H:i:s', $formData[$name][$subFieldName][$subSubFieldName]['date']);
+                                        }
 
                                         if ($dateTimeValue != false) {
                                             $formData[$name][$subFieldName][$subSubFieldName] = $dateTimeValue;
@@ -140,6 +148,10 @@ class FieldBuilder implements FieldBuilderInterface
                         }
                     } else if ("date" == $field->type) {
                         $dateTimeValue = \DateTime::createFromFormat('Y-m-d H:i:s.u', $formData[$name]['date']);
+                        // try to get the date without milliseconds
+                        if (!$dateTimeValue) {
+                            $dateTimeValue = \DateTime::createFromFormat('Y-m-d H:i:s', $formData[$name]['date']);
+                        }
 
                         if ($dateTimeValue != false) {
                             $formData[$name] = $dateTimeValue;
@@ -151,7 +163,7 @@ class FieldBuilder implements FieldBuilderInterface
             $event->setData($formData);
         });
     }
-    
+
     /**
      * Number of elements constraint on associated fields
      * @param unknown $formFields
@@ -160,11 +172,11 @@ class FieldBuilder implements FieldBuilderInterface
     public function addAssociatedFielPostBindEvent($formFields, $builder)
     {
         $builder->addEventListener(FormEvents::POST_BIND, function (FormEvent $event) use ($builder, $formFields) {
-        
+
             $form = $event->getForm();
-        
+
             $fieldRelatedList = array();
-            
+
             foreach ($formFields as $name => $field) {
                 if (property_exists($field, 'options') && property_exists($field->options, 'attr') && property_exists($field->options->attr, 'data-related')) {
                     $fieldRelated = $field->options->attr->{'data-related'};
@@ -172,14 +184,14 @@ class FieldBuilder implements FieldBuilderInterface
 
                     if (!in_array($fieldSource, $fieldRelatedList)) {
                         $nbElementsSource = sizeof($form->get($name)->getData());
-                        
+
                         //Searching related data field
                         foreach ($formFields as $nameRelatedItem => $fieldRelatedItem) {
                             if (property_exists($fieldRelatedItem, 'options') && property_exists($fieldRelatedItem->options, 'attr')
                                 && property_exists($fieldRelatedItem->options->attr, 'data-source')) {
                                 if ($fieldRelatedItem->options->attr->{'data-source'} == $fieldRelated) {
                                     $nbElementsRelated = sizeof($form->get($nameRelatedItem)->getData());
-                                    
+
                                     if ($nbElementsRelated != $nbElementsSource) {
                                         $form->get($name)->addError(new FormError('Veuillez saisir autant de champ que pour '.$fieldRelatedItem->options->label));
                                     }
