@@ -8,7 +8,7 @@
 * file that was distributed with this source code.
 */
 
-namespace ACSEO\Bundle\DynamicFormBundle\Event;
+namespace Eliophot\Bundle\DynamicFormBundle\Event;
 
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\Form\FormInterface;

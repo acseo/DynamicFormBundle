@@ -8,7 +8,7 @@
 * file that was distributed with this source code.
 */
 
-namespace ACSEO\Bundle\DynamicFormBundle\Form\Validator;
+namespace Eliophot\Bundle\DynamicFormBundle\Form\Validator;
 
 /**
  * Interface ValidatorBuilderInterface
@@ -18,7 +18,7 @@ interface ValidatorBuilderInterface
     /**
      * Generate validators for form field
      *
-     * @param $field
+     * @param array $field
      * @return array|bool
      */
     public function buildConstraints($field);

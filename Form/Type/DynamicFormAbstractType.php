@@ -8,7 +8,7 @@
 * file that was distributed with this source code.
 */
 
-namespace ACSEO\Bundle\DynamicFormBundle\Form\Type;
+namespace Eliophot\Bundle\DynamicFormBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 
@@ -21,14 +21,19 @@ abstract class DynamicFormAbstractType extends AbstractType
     
     protected $formName;
 
+    /**
+     * @param mixed $formStruct
+     */
     public function setFormStruct($formStruct)
     {
         $this->formStruct = $formStruct;
     }
-    
+
+    /**
+     * @param mixed $formName
+     */
     public function setFormName($formName)
     {
         $this->formName = $formName;
     }
-
 }

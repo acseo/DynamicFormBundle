@@ -1,8 +1,8 @@
 <?php
 
-namespace ACSEO\Bundle\DynamicFormBundle\Form\Provider;
+namespace Eliophot\Bundle\DynamicFormBundle\Form\Provider;
 
-use ACSEO\Bundle\DynamicFormBundle\Form\Provider\FormProviderInterface;
+use Eliophot\Bundle\DynamicFormBundle\Form\Provider\FormProviderInterface;
 
 /**
  * Array Form Provider.
@@ -13,21 +13,35 @@ class ArrayFormProvider implements FormProviderInterface
 
     private $formName;
 
+    /**
+     * @param array $formArray
+     */
     public function setFormArray(array $formArray)
     {
         $this->formArray = $formArray;
     }
 
+    /**
+     * @return string
+     */
     public function buildJson()
     {
         return json_encode($this->formArray);
     }
-    
-    public function setFormName($formName) {
+
+    /**
+     * @param mixed $formName
+     */
+    public function setFormName($formName)
+    {
         $this->formName = $formName;
     }
-    
-    public function getFormName() {
+
+    /**
+     * @return mixed
+     */
+    public function getFormName()
+    {
         return $this->formName;
     }
 }

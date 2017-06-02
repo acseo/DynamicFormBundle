@@ -8,7 +8,7 @@
 * file that was distributed with this source code.
 */
 
-namespace ACSEO\Bundle\DynamicFormBundle\Form\Validator;
+namespace Eliophot\Bundle\DynamicFormBundle\Form\Validator;
 
 use Symfony\Component\Validator\Exception\ValidatorException;
 use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
@@ -21,7 +21,7 @@ class ValidatorBuilder implements ValidatorBuilderInterface
     /**
      * Generate validators for form field
      *
-     * @param $field
+     * @param array $field
      * @return array|bool
      */
     public function buildConstraints($field)
@@ -35,16 +35,18 @@ class ValidatorBuilder implements ValidatorBuilderInterface
         $constraints = array();
 
         foreach ($rawConstraints as $rule => $options) {
-
             $className = $this->guessValidatorClass($rule);
-
             $constraints[] = $this->instantiateValidator($className, $options);
         }
-
 
         return $constraints;
     }
 
+    /**
+     * @param string $className
+     * @param array  $options
+     * @return mixed
+     */
     private function instantiateValidator($className, $options)
     {
         try {
@@ -56,6 +58,10 @@ class ValidatorBuilder implements ValidatorBuilderInterface
         }
     }
 
+    /**
+     * @param mixed $ruleName
+     * @return string
+     */
     private function guessValidatorClass($ruleName)
     {
         $className = 'Symfony\Component\Validator\Constraints\\'.$ruleName;

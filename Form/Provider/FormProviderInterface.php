@@ -8,7 +8,7 @@
 * file that was distributed with this source code.
 */
 
-namespace ACSEO\Bundle\DynamicFormBundle\Form\Provider;
+namespace Eliophot\Bundle\DynamicFormBundle\Form\Provider;
 
 interface FormProviderInterface
 {

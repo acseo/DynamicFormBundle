@@ -8,7 +8,7 @@
 * file that was distributed with this source code.
 */
 
-namespace ACSEO\Bundle\DynamicFormBundle\Form\Field;
+namespace Eliophot\Bundle\DynamicFormBundle\Form\Field;
 
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -20,11 +20,11 @@ interface FieldBuilderInterface
     /**
      * Add a field to dynamic form
      *
-     * @param $name
-     * @param string $field
-     * @param array $options
+     * @param string               $name
+     * @param string               $field
+     * @param array                $options
      * @param FormBuilderInterface $builder
      * @return mixed
      */
-    public function addField($name, $field, $options,FormBuilderInterface $builder);
+    public function addField($name, $field, $options, FormBuilderInterface $builder);
 }

@@ -1,21 +1,21 @@
-Getting Started With ACSEODynamicFormBundle
+Getting Started With EliophotDynamicFormBundle
 ==================================
 
 ## Installation
 
-1. Download ACSEODynamicFormBundle using composer
+1. Download EliophotDynamicFormBundle using composer
 2. Enable the Bundle
 3. Controller example
 4. Create your own provider
 
-### Step 1: Download ACSEODynamicFormBundle using composer
+### Step 1: Download EliophotDynamicFormBundle using composer
 
-Add ACSEODynamicFormBundle in your composer.json:
+Add EliophotDynamicFormBundle in your composer.json:
 
 ```json
-{	
+{   
     "require": {
-        "acseo/dynamic-form-bundle": "dev-master"
+        "eliophot-studio/dynamic-form-bundle": "dev-master"
     }
 }
 ```
@@ -23,10 +23,10 @@ Add ACSEODynamicFormBundle in your composer.json:
 Now tell composer to download the bundle by running the command:
 
 ``` bash
-$ composer update acseo/dynamic-form-bundle
+$ composer update eliophot-studio/dynamic-form-bundle
 ```
 
-Composer will install the bundle to your project's `vendor/acseo` directory.
+Composer will install the bundle to your project's `vendor/eliophot` directory.
 
 ### Step 2: Enable the bundle
 
@@ -40,7 +40,7 @@ public function registerBundles()
 {
     $bundles = array(
         // ...
-        new ACSEO\Bundle\DynamicFormBundle\ACSEODynamicFormBundle(),
+        new Eliophot\Bundle\DynamicFormBundle\EliophotDynamicFormBundle(),
     );
 }
 ```
@@ -103,10 +103,10 @@ public function indexAction()
         ),
     );
 
-    $arrayFormProvider = $this->get('acseo.form.array.provider');
+    $arrayFormProvider = $this->get('eliophot.form.array.provider');
     $arrayFormProvider->setFormArray($formArray);
 
-    $form =  $this->get('acseo.form.manager')->createForm($arrayFormProvider);
+    $form =  $this->get('eliophot.form.manager')->createForm($arrayFormProvider);
 
     if ($this->container->get('request')->isMethod('POST')) {
         $form->handleRequest($this->container->get('request'));
