@@ -10,6 +10,10 @@
 
 namespace ACSEO\Bundle\DynamicFormBundle\Form\Provider;
 
+/**
+ * Interface FormProviderInterface
+ * @package ACSEO\Bundle\DynamicFormBundle\Form\Provider
+ */
 interface FormProviderInterface
 {
     /**

@@ -18,7 +18,7 @@ interface ValidatorBuilderInterface
     /**
      * Generate validators for form field
      *
-     * @param $field
+     * @param mixed $field
      * @return array|bool
      */
     public function buildConstraints($field);

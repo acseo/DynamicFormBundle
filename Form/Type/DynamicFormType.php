@@ -23,9 +23,17 @@ use ACSEO\Bundle\DynamicFormBundle\Form\Field\FieldBuilderInterface;
  */
 class DynamicFormType extends DynamicFormAbstractType
 {
+    /** @var ValidatorBuilderInterface $validatorBuilder */
     private $validatorBuilder;
+
+    /** @var FieldBuilderInterface $fieldBuilder */
     private $fieldBuilder;
 
+    /**
+     * DynamicFormType constructor.
+     * @param ValidatorBuilderInterface $validatorBuilder
+     * @param FieldBuilderInterface     $fieldBuilder
+     */
     public function __construct(ValidatorBuilderInterface $validatorBuilder, FieldBuilderInterface $fieldBuilder)
     {
         $this->validatorBuilder = $validatorBuilder;
@@ -34,7 +42,7 @@ class DynamicFormType extends DynamicFormAbstractType
 
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -46,26 +54,26 @@ class DynamicFormType extends DynamicFormAbstractType
 
         foreach ($formFields as $name => $field) {
             $options = json_decode(json_encode($field->options), true);
-
             $constraints = $this->validatorBuilder->buildConstraints($field);
 
             if ($constraints) {
                 $options = array_merge($options, array(
-                    'constraints' => $constraints
+                    'constraints' => $constraints,
                 ));
             }
 
             $this->fieldBuilder->addField($name, $field, $options, $builder);
         }
-        
+
         $this->fieldBuilder->addMultipleFieldPostBindEvent($formFields, $builder);
-        
         $this->fieldBuilder->alterDataPreSetDataEvent($formFields, $builder);
-        
         $this->fieldBuilder->addAssociatedFielPostBindEvent($formFields, $builder);
     }
 
-    public function getName()
+    /**
+     * @return mixed
+     */
+    public function getBlockPrefix()
     {
         return $this->formName;
     }
