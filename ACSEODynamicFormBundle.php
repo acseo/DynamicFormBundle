@@ -8,14 +8,14 @@
 * file that was distributed with this source code.
 */
 
-namespace Eliophot\Bundle\DynamicFormBundle;
+namespace ACSEO\Bundle\DynamicFormBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * EliophotDynamicFormBundle class
+ * ACSEODynamicFormBundle class
  *
  */
-class EliophotDynamicFormBundle extends Bundle
+class ACSEODynamicFormBundle extends Bundle
 {
 }

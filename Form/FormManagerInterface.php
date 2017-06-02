@@ -8,9 +8,9 @@
 * file that was distributed with this source code.
 */
 
-namespace Eliophot\Bundle\DynamicFormBundle\Form;
+namespace ACSEO\Bundle\DynamicFormBundle\Form;
 
-use Eliophot\Bundle\DynamicFormBundle\Form\Provider\FormProviderInterface;
+use ACSEO\Bundle\DynamicFormBundle\Form\Provider\FormProviderInterface;
 
 /**
  * Class FormManagerInterface
@@ -19,8 +19,8 @@ interface FormManagerInterface
 {
     /**
      * Creates an empty form instance.
-     * @param FormProviderInterface $formProvider
-     * @return mixed
+     * @param mixed $formStruc
+     * @return Form
      */
     public function createForm(FormProviderInterface $formProvider);
 }

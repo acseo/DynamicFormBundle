@@ -8,7 +8,7 @@
 * file that was distributed with this source code.
 */
 
-namespace Eliophot\Bundle\DynamicFormBundle\Form\Type;
+namespace ACSEO\Bundle\DynamicFormBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -24,34 +24,21 @@ class VirtualType extends AbstractType
     private $options;
     private $field;
 
-    /**
-     * VirtualType constructor.
-     * @param array $options
-     * @param mixed $field
-     */
     public function __construct(array $options, $field)
     {
         $this->options = $options;
         $this->field = $field;
     }
 
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array                $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if (array_key_exists('data', $this->options) && is_array($this->options['data'])) {
+        if(array_key_exists('data', $this->options) && is_array($this->options['data'])) {
             unset($this->options['data']);
         }
-
         $builder->add('value', $this->field->type, $this->options);
     }
 
-    /**
-     * @return string
-     */
-    public function getBlockPrefix()
+    public function getName()
     {
         return 'virtual';
     }

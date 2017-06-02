@@ -1,6 +1,6 @@
 <?php
 
-namespace Eliophot\Bundle\DynamicFormBundle\DependencyInjection;
+namespace ACSEO\Bundle\DynamicFormBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -18,7 +18,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('eliophot_dynamic_form');
+        $rootNode = $treeBuilder->root('acseo_dynamic_form');
 
         return $treeBuilder;
     }

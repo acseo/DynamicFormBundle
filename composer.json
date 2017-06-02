@@ -1,30 +1,30 @@
 {
-    "name": "eliophot/dynamic-form-bundle",
+    "name": "acseo/dynamic-form-bundle",
     "type": "symfony-bundle",
-    "description": "Symfony3 Form generator from array description",
+    "description": "Symfony2 From generator from array description",
     "keywords": ["Symfony", "form", "generator"],
-    "homepage": "https://github.com/eliophot-studio/DynamicFormBundle",
+    "homepage": "https://github.com/acseo/DynamicFormBundle",
     "authors": [
         {
             "name": "Hubert MARIN",
-            "email": "studio@eliophot.com"
+            "email": "Hubert.Marin@acseo-conseil.fr"
         }
     ],
     "require": {
-        "php": ">=7.0",
-        "symfony/symfony": ">=2.8"
+        "php": ">=5.3.2",
+        "symfony/symfony": ">=2.0.0"        
     },
     "suggest": {
 
     },
     "autoload": {
-        "psr-1": { "eliophot-studio\\Bundle\\DynamicFormBundle": "" }
+        "psr-0": { "ACSEO\\Bundle\\DynamicFormBundle": "" }
     },
-    "target-dir": "eliophot-studio/Bundle/DynamicFormBundle",
+    "target-dir": "ACSEO/Bundle/DynamicFormBundle",
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0-dev"
+            "dev-master": "2.3-dev"
         }
     }
 }

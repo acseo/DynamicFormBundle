@@ -8,34 +8,23 @@
 * file that was distributed with this source code.
 */
 
-namespace Eliophot\Bundle\DynamicFormBundle\Form;
+namespace ACSEO\Bundle\DynamicFormBundle\Form;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormFactoryInterface;
-use Eliophot\Bundle\DynamicFormBundle\Events;
-use Eliophot\Bundle\DynamicFormBundle\Event\FormEvent;
-use Eliophot\Bundle\DynamicFormBundle\Form\Provider\FormProviderInterface;
+use ACSEO\Bundle\DynamicFormBundle\Events;
+use ACSEO\Bundle\DynamicFormBundle\Event\FormEvent;
+use ACSEO\Bundle\DynamicFormBundle\Form\Provider\FormProviderInterface;
 
 /**
  * Class FormManager
  */
 class FormManager implements FormManagerInterface
 {
-    /** @var EventDispatcherInterface $dispatcher */
     protected $dispatcher;
-
-    /** @var FormFactoryInterface $formFactory */
     protected $formFactory;
-
-    /** @var mixed $dynamicFormType */
     protected $dynamicFormType;
 
-    /**
-     * FormManager constructor.
-     * @param EventDispatcherInterface $dispatcher
-     * @param FormFactoryInterface     $formFactory
-     * @param mixed                    $dynamicFormType
-     */
     public function __construct(EventDispatcherInterface $dispatcher, FormFactoryInterface $formFactory, $dynamicFormType)
     {
         $this->dispatcher = $dispatcher;
@@ -43,20 +32,16 @@ class FormManager implements FormManagerInterface
         $this->dynamicFormType = $dynamicFormType;
     }
 
-    /**
-     * @param FormProviderInterface $formProvider
-     * @return \Symfony\Component\Form\FormInterface
-     */
     public function createForm(FormProviderInterface $formProvider)
     {
         $this->dynamicFormType->setFormStruct($formProvider->buildJson());
         $this->dynamicFormType->setFormName($formProvider->getFormName());
-
-        $form = $this->formFactory->create(DynamicFormType::class);
+        $form = $this->formFactory->create($this->dynamicFormType);
 
         $event = new FormEvent($form);
         $this->dispatcher->dispatch(Events::FORM_CREATE, $event);
 
         return $form;
     }
+
 }
