@@ -6,7 +6,7 @@
     "homepage": "https://github.com/eliophot-studio/DynamicFormBundle",
     "authors": [
         {
-            "name": "Hubert MARIN",
+            "name": "Eliophot",
             "email": "studio@eliophot.com"
         }
     ],
@@ -18,13 +18,13 @@
 
     },
     "autoload": {
-        "psr-1": { "eliophot-studio\\Bundle\\DynamicFormBundle": "" }
+        "psr-0": { "eliophot-studio\\Bundle\\DynamicFormBundle": "" }
     },
-    "target-dir": "eliophot-studio/Bundle/DynamicFormBundle",
+    "target-dir": "eliophot/Bundle/DynamicFormBundle",
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0-dev"
+            "dev-master": "2.3-dev"
         }
     }
 }
