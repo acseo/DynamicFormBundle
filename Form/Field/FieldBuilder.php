@@ -21,6 +21,12 @@ use Symfony\Component\Form\FormError;
  */
 class FieldBuilder implements FieldBuilderInterface
 {
+    /**
+     * @param string               $name
+     * @param string               $field
+     * @param array                $options
+     * @param FormBuilderInterface $builder
+     */
     public function addField($name, $field, $options, FormBuilderInterface $builder)
     {
         if (array_key_exists('data', $options) && $field->type == 'genemu_jquerydate') {
@@ -42,34 +48,14 @@ class FieldBuilder implements FieldBuilderInterface
         }
     }
 
-    private function addSingleField($name, $field, $options, $builder)
-    {
-        $builder->add($name, $field->type, $options);
-    }
-
-    private function addMultipleField($name, $field, $options, $builder)
-    {
-        $builder->add($name, 'collection', array(
-            'label' => $options['label'],
-            'error_bubbling' => false,
-            'type' =>  new VirtualType($options, $field),
-            'allow_add' => true,
-            'allow_delete' => true,
-            'prototype' => true,
-            'required' => ($options['required']) ? $options['required'] : false,
-            'attr' => array('class' => 'prototype'),
-            'data' =>(array_key_exists('data', $options) && is_array($options['data'])) ? $options['data'] : null
-        ));
-    }
-
     /**
      * Length constraint on multiple field
-     * @param unknown $formFields
-     * @param unknown $builder
+     * @param mixed $formFields
+     * @param mixed $builder
      */
     public function addMultipleFieldPostBindEvent($formFields, $builder)
     {
-        $builder->addEventListener(FormEvents::POST_BIND, function (FormEvent $event) use ($builder, $formFields) {
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($builder, $formFields) {
 
             $form = $event->getForm();
 
@@ -105,8 +91,8 @@ class FieldBuilder implements FieldBuilderInterface
 
     /**
      * Modifies data before they are bound to the form
-     * @param unknown $formFields
-     * @param unknown $builder
+     * @param mixed $formFields
+     * @param mixed $builder
      */
     public function alterDataPreSetDataEvent($formFields, $builder)
     {
@@ -129,7 +115,7 @@ class FieldBuilder implements FieldBuilderInterface
                                 if ($dateTimeValue != false) {
                                     $formData[$name][$subFieldName] = $dateTimeValue;
                                 }
-                            } else if ("fieldset" == $subField->type) {
+                            } elseif ("fieldset" == $subField->type) {
                                 //In case a fieldset contains another fieldset with date - better rewrite with recursive walker
                                 foreach ($subField->attr->subforms as $subSubFieldName => $subSubField) {
                                     if ("date" == $subSubField->type && array_key_exists($name, $formData) && array_key_exists($subFieldName, $formData[$name]) && array_key_exists($subSubFieldName, $formData[$name][$subFieldName])) {
@@ -146,7 +132,7 @@ class FieldBuilder implements FieldBuilderInterface
                                 }
                             }
                         }
-                    } else if ("date" == $field->type) {
+                    } elseif ("date" == $field->type) {
                         $dateTimeValue = \DateTime::createFromFormat('Y-m-d H:i:s.u', $formData[$name]['date']);
                         // try to get the date without milliseconds
                         if (!$dateTimeValue) {
@@ -171,7 +157,7 @@ class FieldBuilder implements FieldBuilderInterface
      */
     public function addAssociatedFielPostBindEvent($formFields, $builder)
     {
-        $builder->addEventListener(FormEvents::POST_BIND, function (FormEvent $event) use ($builder, $formFields) {
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($builder, $formFields) {
 
             $form = $event->getForm();
 
@@ -202,5 +188,37 @@ class FieldBuilder implements FieldBuilderInterface
                 }
             }
         });
+    }
+
+    /**
+     * @param string               $name
+     * @param \stdClass            $field
+     * @param array                $options
+     * @param FormBuilderInterface $builder
+     */
+    private function addSingleField($name, $field, $options, $builder)
+    {
+        $builder->add($name, $field->type, $options);
+    }
+
+    /**
+     * @param string               $name
+     * @param \stdClass            $field
+     * @param array                $options
+     * @param FormBuilderInterface $builder
+     */
+    private function addMultipleField($name, $field, $options, $builder)
+    {
+        $builder->add($name, CollectionType::class, array(
+            'label' => $options['label'],
+            'error_bubbling' => false,
+            'entry_type' =>  new VirtualType($options, $field),
+            'allow_add' => true,
+            'allow_delete' => true,
+            'prototype' => true,
+            'required' => ($options['required']) ? $options['required'] : false,
+            'attr' => array('class' => 'prototype'),
+            'data' => (array_key_exists('data', $options) && is_array($options['data'])) ? $options['data'] : null,
+        ));
     }
 }

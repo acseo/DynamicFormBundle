@@ -25,6 +25,12 @@ class FormManager implements FormManagerInterface
     protected $formFactory;
     protected $dynamicFormType;
 
+    /**
+     * FormManager constructor.
+     * @param EventDispatcherInterface $dispatcher
+     * @param FormFactoryInterface     $formFactory
+     * @param mixed                    $dynamicFormType
+     */
     public function __construct(EventDispatcherInterface $dispatcher, FormFactoryInterface $formFactory, $dynamicFormType)
     {
         $this->dispatcher = $dispatcher;
@@ -32,16 +38,20 @@ class FormManager implements FormManagerInterface
         $this->dynamicFormType = $dynamicFormType;
     }
 
+    /**
+     * @param FormProviderInterface $formProvider
+     * @return \Symfony\Component\Form\FormInterface
+     */
     public function createForm(FormProviderInterface $formProvider)
     {
         $this->dynamicFormType->setFormStruct($formProvider->buildJson());
         $this->dynamicFormType->setFormName($formProvider->getFormName());
-        $form = $this->formFactory->create($this->dynamicFormType);
+
+        $form = $this->formFactory->create(DynamicFormType::class);
 
         $event = new FormEvent($form);
         $this->dispatcher->dispatch(Events::FORM_CREATE, $event);
 
         return $form;
     }
-
 }

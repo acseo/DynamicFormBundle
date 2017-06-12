@@ -24,21 +24,34 @@ class VirtualType extends AbstractType
     private $options;
     private $field;
 
+    /**
+     * VirtualType constructor.
+     * @param array $options
+     * @param mixed $field
+     */
     public function __construct(array $options, $field)
     {
         $this->options = $options;
         $this->field = $field;
     }
 
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array                $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if(array_key_exists('data', $this->options) && is_array($this->options['data'])) {
+        if (array_key_exists('data', $this->options) && is_array($this->options['data'])) {
             unset($this->options['data']);
         }
+
         $builder->add('value', $this->field->type, $this->options);
     }
 
-    public function getName()
+    /**
+     * @return string
+     */
+    public function getBlockPrefix()
     {
         return 'virtual';
     }

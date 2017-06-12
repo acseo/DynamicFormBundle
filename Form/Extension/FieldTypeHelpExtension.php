@@ -41,9 +41,9 @@ class FieldTypeHelpExtension extends AbstractTypeExtension
     }
 
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'help' => null,
@@ -55,6 +55,6 @@ class FieldTypeHelpExtension extends AbstractTypeExtension
      */
     public function getExtendedType()
     {
-        return 'form';
+        return FormType::class;
     }
 }

@@ -19,8 +19,8 @@ interface FormManagerInterface
 {
     /**
      * Creates an empty form instance.
-     * @param mixed $formStruc
-     * @return Form
+     * @param FormProviderInterface $formProvider
+     * @return mixed
      */
     public function createForm(FormProviderInterface $formProvider);
 }

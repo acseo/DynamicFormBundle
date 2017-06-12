@@ -18,17 +18,22 @@ use Symfony\Component\Form\AbstractType;
 abstract class DynamicFormAbstractType extends AbstractType
 {
     protected $formStruct;
-    
+
     protected $formName;
 
+    /**
+     * @param mixed $formStruct
+     */
     public function setFormStruct($formStruct)
     {
         $this->formStruct = $formStruct;
     }
-    
+
+    /**
+     * @param mixed $formName
+     */
     public function setFormName($formName)
     {
         $this->formName = $formName;
     }
-
 }

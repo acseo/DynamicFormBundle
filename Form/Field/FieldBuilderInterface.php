@@ -20,11 +20,11 @@ interface FieldBuilderInterface
     /**
      * Add a field to dynamic form
      *
-     * @param $name
-     * @param string $field
-     * @param array $options
+     * @param string               $name
+     * @param string               $field
+     * @param array                $options
      * @param FormBuilderInterface $builder
      * @return mixed
      */
-    public function addField($name, $field, $options,FormBuilderInterface $builder);
+    public function addField($name, $field, $options, FormBuilderInterface $builder);
 }
