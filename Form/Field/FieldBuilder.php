@@ -146,7 +146,7 @@ class FieldBuilder implements FieldBuilderInterface
                                 }
                             }
                         }
-                    } else if ("date" == $field->type) {
+                    } elseif ("date" == $field->type && array_key_exists($name, $formData)) {
                         $dateTimeValue = \DateTime::createFromFormat('Y-m-d H:i:s.u', $formData[$name]['date']);
                         // try to get the date without milliseconds
                         if (!$dateTimeValue) {
