@@ -33,13 +33,13 @@
         </service>
 
         <service id="acseo.form.extension.help" class="%acseo_dynamic_form.form.extension.help.class%">
-            <tag name="form.type_extension" alias="form"/>
+            <tag name="form.type_extension" extended-type="Symfony\Component\Form\Extension\Core\Type\FormType" />
         </service>
         <service id="acseo.form.extension.picto" class="%acseo_dynamic_form.form.extension.picto.class%">
-            <tag name="form.type_extension" alias="form"/>
+            <tag name="form.type_extension" extended-type="Symfony\Component\Form\Extension\Core\Type\FormType" />
         </service>
         <service id="acseo.form.extension.popin" class="%acseo_dynamic_form.form.extension.popin.class%">
-            <tag name="form.type_extension" alias="form"/>
+            <tag name="form.type_extension" extended-type="Symfony\Component\Form\Extension\Core\Type\FormType" />
         </service>
 
         <service id="acseo.form.array.provider" class="%acseo_dynamic_form.array_form_provider.class%">
