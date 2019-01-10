@@ -2,11 +2,12 @@
 
 namespace ACSEO\Bundle\DynamicFormBundle\Form\Type;
 
+use ACSEO\Bundle\DynamicFormBundle\Form\Field\FieldBuilder;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class FieldsetType
@@ -15,9 +16,9 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class FieldsetType extends AbstractType
 {
     /**
-     * @param OptionsResolverInterface $resolver
+     * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'title'      => false,
@@ -34,7 +35,7 @@ class FieldsetType extends AbstractType
     {
         if (!empty($options['subforms'])) {
             foreach ($options['subforms'] as $f) {
-                $builder->add($f['name'], $f['type'], $f['attr']);
+                $builder->add($f['name'], FieldBuilder::getFormTypeClass($f['type']), $f['attr']);
             }
         }
     }

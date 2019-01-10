@@ -10,11 +10,12 @@
 
 namespace ACSEO\Bundle\DynamicFormBundle\Form\Type;
 
+use ACSEO\Bundle\DynamicFormBundle\Form\Field\FieldBuilder;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  * Virtual Type : used for collection form type
@@ -45,7 +46,7 @@ class VirtualType extends AbstractType
             unset($this->options['data']);
         }
 
-        $builder->add('value', $this->field->type, $this->options);
+        $builder->add('value', FieldBuilder::getFormTypeClass($this->field->type), $this->options);
     }
 
     /**
