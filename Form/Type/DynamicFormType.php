@@ -48,7 +48,7 @@ class DynamicFormType extends DynamicFormAbstractType
     {
         $formFields = json_decode($this->formStruct);
 
-        if (!count($formFields)) {
+        if (!count((array) $formFields)) {
             throw new Exception('FormStruc is empty');
         }
 

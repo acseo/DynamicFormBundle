@@ -198,7 +198,32 @@ class FieldBuilder implements FieldBuilderInterface
      */
     private function addSingleField($name, $field, $options, $builder)
     {
-        $builder->add($name, $field->type, $options);
+        $builder->add($name, self::getFormTypeClass($field->type), $options);
+    }
+
+    /**
+     * @param string               $fieldType
+     */
+    public static function getFormTypeClass($fieldType)
+    {
+        switch ($fieldType) {
+            case 'checkbox':
+                return \Symfony\Component\Form\Extension\Core\Type\CheckboxType::class;
+            case 'choice':
+                return \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class;
+            case 'date':
+                return \Symfony\Component\Form\Extension\Core\Type\DateType::class;
+            case 'file':
+                return \Symfony\Component\Form\Extension\Core\Type\FileType::class;
+            case 'fieldset':
+                return \ACSEO\Bundle\DynamicFormBundle\Form\Type\FieldsetType::class;
+            case 'text':
+                return \Symfony\Component\Form\Extension\Core\Type\TextType::class;
+            case 'textarea':
+                return \Symfony\Component\Form\Extension\Core\Type\TextareaType::class;
+        }
+
+        return $fieldType;
     }
 
     /**

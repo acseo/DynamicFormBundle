@@ -10,11 +10,12 @@
 
 namespace ACSEO\Bundle\DynamicFormBundle\Form;
 
+use ACSEO\Bundle\DynamicFormBundle\Event\FormEvent;
+use ACSEO\Bundle\DynamicFormBundle\Events;
+use ACSEO\Bundle\DynamicFormBundle\Form\Provider\FormProviderInterface;
+use ACSEO\Bundle\DynamicFormBundle\Form\Type\DynamicFormType;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormFactoryInterface;
-use ACSEO\Bundle\DynamicFormBundle\Events;
-use ACSEO\Bundle\DynamicFormBundle\Event\FormEvent;
-use ACSEO\Bundle\DynamicFormBundle\Form\Provider\FormProviderInterface;
 
 /**
  * Class FormManager
