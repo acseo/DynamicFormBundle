@@ -17,8 +17,7 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('acseo_dynamic_form');
+        $treeBuilder = new TreeBuilder('acseo_dynamic_form');
 
         return $treeBuilder;
     }
