@@ -10,8 +10,8 @@
 
 namespace ACSEO\Bundle\DynamicFormBundle\Event;
 
-use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * Class FormEvent
