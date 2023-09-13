@@ -51,7 +51,7 @@ class FormManager implements FormManagerInterface
         $form = $this->formFactory->create(DynamicFormType::class);
 
         $event = new FormEvent($form);
-        $this->dispatcher->dispatch(Events::FORM_CREATE, $event);
+        $this->dispatcher->dispatch($event, Events::FORM_CREATE);
 
         return $form;
     }
