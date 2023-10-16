@@ -105,7 +105,7 @@ class FieldBuilder implements FieldBuilderInterface
                     //Altering date array to a \DateTime object if date type in fieldset or if date type
                     if ("fieldset" == $field->type) {
                         foreach ($field->options->subforms as $subFieldName => $subField) {
-                            if ("date" == $subField->type && array_key_exists($name, $formData) && array_key_exists($subFieldName, $formData[$name])) {
+                            if ("date" == $subField->type && isset($formData[$name][$subFieldName]['date'])) {
                                 $dateTimeValue = \DateTime::createFromFormat('Y-m-d H:i:s.u', $formData[$name][$subFieldName]['date']);
                                 // try to get the date without milliseconds
                                 if (!$dateTimeValue) {
@@ -118,7 +118,7 @@ class FieldBuilder implements FieldBuilderInterface
                             } elseif ("fieldset" == $subField->type) {
                                 //In case a fieldset contains another fieldset with date - better rewrite with recursive walker
                                 foreach ($subField->attr->subforms as $subSubFieldName => $subSubField) {
-                                    if ("date" == $subSubField->type && array_key_exists($name, $formData) && array_key_exists($subFieldName, $formData[$name]) && array_key_exists($subSubFieldName, $formData[$name][$subFieldName])) {
+                                    if ("date" == $subSubField->type && isset($formData[$name][$subFieldName][$subSubFieldName]['date'])) {
                                         $dateTimeValue = \DateTime::createFromFormat('Y-m-d H:i:s.u', $formData[$name][$subFieldName][$subSubFieldName]['date']);
                                         // try to get the date without milliseconds
                                         if (!$dateTimeValue) {
