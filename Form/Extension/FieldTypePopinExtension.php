@@ -27,7 +27,7 @@ class FieldTypePopinExtension extends AbstractTypeExtension
      * @param FormBuilderInterface $builder
      * @param array                $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->setAttribute('popin', $options['popin']);
     }
@@ -37,7 +37,7 @@ class FieldTypePopinExtension extends AbstractTypeExtension
      * @param FormInterface $form
      * @param array         $options
      */
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $view->vars['popin'] = $options['popin'];
     }
@@ -45,7 +45,7 @@ class FieldTypePopinExtension extends AbstractTypeExtension
     /**
      * @param OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             'popin' => null,
